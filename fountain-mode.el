@@ -4,8 +4,10 @@
 
 ;; Author: Paul Rankin <hello@paulwrankin.com>
 ;; Keywords: wp, text
-;; Version: 2.6.2
+;; Version: 2.7.0
 ;; Package-Requires: ((emacs "24.5"))
+
+;; This file is part of GNU Emacs.
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -89,7 +91,7 @@
 ;; --------------
 
 ;; To report bugs, please use `M-x report-emacs-bug RET` or send an email to
-;; <bug-gnu-emacs@gnu.org>
+;; <bug-gnu-emacs@gnu.org>. Please include "fountain" in the subject.
 
 
 ;;; Code:
@@ -98,7 +100,7 @@
 (eval-when-compile (require 'cl-lib))
 
 (defconst fountain-version
-  "2.6.1")
+  "2.7.0")
 
 (defun fountain-version ()
   "Return `fountain-mode' version."
@@ -114,142 +116,170 @@
 ;;; Obsolete Warnings
 
 (define-obsolete-variable-alias 'fountain-align-centered
-  'fountain-align-center "1.1.0")
+  'fountain-align-center "fountain-mode-1.1.0")
 
 (define-obsolete-variable-alias 'fountain-hide-escapes
-  'fountain-hide-syntax-chars "1.3.0")
+  'fountain-hide-syntax-chars "fountain-mode-1.3.0")
 
 (make-obsolete-variable 'fountain-export-inline-style
-                        "Use inline style instead." "2.1.0")
+                        "use inline style instead."
+                        "fountain-mode-2.1.0")
 
 (define-obsolete-variable-alias 'fountain-export-style-template
-  'fountain-export-html-stylesheet "2.4.0")
+  'fountain-export-html-stylesheet "fountain-mode-2.4.0")
 
 (define-obsolete-face-alias 'fountain-centered
-  'fountain-center "1.1.0")
+  'fountain-center "fountain-mode-1.1.0")
 
 (define-obsolete-face-alias 'fountain-scene-heading-highlight
-  'fountain-scene-heading "1.2.0")
+  'fountain-scene-heading "fountain-mode-1.2.0")
 
 (define-obsolete-face-alias 'fountain-note-highlight
-  'fountain-note "1.2.0")
+  'fountain-note "fountain-mode-1.2.0")
 
 (define-obsolete-face-alias 'fountain-section-highlight
-  'fountain-section "1.2.0")
+  'fountain-section "fountain-mode-1.2.0")
 
 (define-obsolete-face-alias 'fountain-synopsis-highlight
-  'fountain-synopsis "1.2.0")
+  'fountain-synopsis "fountain-mode-1.2.0")
 
 (define-obsolete-face-alias 'fountain-center-highlight
-  'fountain-center "1.2.0")
+  'fountain-center "fountain-mode-1.2.0")
 
 (define-obsolete-face-alias 'fountain-character-highlight
-  'fountain-character "1.2.0")
+  'fountain-character "fountain-mode-1.2.0")
 
 (define-obsolete-face-alias 'fountain-paren-highlight
-  'fountain-paren "1.2.0")
+  'fountain-paren "fountain-mode-1.2.0")
 
 (define-obsolete-face-alias 'fountain-dialog-highlight
-  'fountain-dialog "1.2.0")
+  'fountain-dialog "fountain-mode-1.2.0")
 
 (define-obsolete-face-alias 'fountain-trans-highlight
-  'fountain-trans "1.2.0")
+  'fountain-trans "fountain-mode-1.2.0")
 
 (define-obsolete-face-alias 'fountain-section
-  'fountain-section-heading "1.4.1")
+  'fountain-section-heading "fountain-mode-1.4.1")
 
 (make-obsolete-variable 'fountain-export-title-page-left-template
-                        "Edit individual export templates instead." "2.4.0")
+                        "edit individual export templates instead."
+                        "fountain-mode-2.4.0")
 
 (make-obsolete-variable 'fountain-export-title-page-right-template
-                        "Edit individual export templates instead." "2.4.0")
+                        "edit individual export templates instead."
+                        "fountain-mode-2.4.0")
 
 (make-obsolete 'fountain-export-buffer-to-pdf-via-html
-               'fountain-export-buffer-to-latex "2.5.0")
+               'fountain-export-buffer-to-latex "fountain-mode-2.5.0")
 
 (make-obsolete-variable 'fountain-export-pdf-via-html-command
-                        'fountain-export-shell-command "2.0.0")
+                        'fountain-export-shell-command
+                        "fountain-mode-2.0.0")
 
 (make-obsolete-variable 'fountain-uuid-func
-                        "Use a third-party package instead." "2.0.0")
+                        "use a third-party package instead."
+                        "fountain-mode-2.0.0")
 
 (make-obsolete-variable 'fountain-export-bold-scene-headings
-                        'fountain-export-scene-heading-format "2.0.0")
+                        'fountain-export-scene-heading-format
+                        "fountain-mode-2.0.0")
 
 (make-obsolete-variable 'fountain-export-underline-scene-headings
-                        'fountain-export-scene-heading-format "2.0.0")
+                        'fountain-export-scene-heading-format
+                        "fountain-mode-2.0.0")
 
 (make-obsolete-variable 'fountain-export-double-space-scene-headings
-                        'fountain-export-scene-heading-format "2.0.0")
+                        'fountain-export-scene-heading-format
+                        "fountain-mode-2.0.0")
 
 (make-obsolete-variable 'fountain-export-bold-title
-                        "Edit individual export templates instead." "2.4.0")
+                        "edit individual export templates instead."
+                        "fountain-mode-2.4.0")
 
 (make-obsolete-variable 'fountain-export-underline-title
-                        "Edit individual export templates instead." "2.4.0")
+                        "edit individual export templates instead."
+                        "fountain-mode-2.4.0")
 
 (make-obsolete-variable 'fountain-export-upcase-title
-                        "Edit individual export templates instead." "2.4.0")
+                        "edit individual export templates instead."
+                        "fountain-mode-2.4.0")
 
 (make-obsolete-variable 'fountain-export-html-head-template
-                        'fountain-export-html-template "2.4.0")
+                        'fountain-export-html-template
+                        "fountain-mode-2.4.0")
 
 (make-obsolete-variable 'fountain-export-html-use-inline-style
-                        "Use inline style instead." "2.1.0")
+                        "use inline style instead."
+                        "fountain-mode-2.1.0")
 
 (make-obsolete-variable 'fountain-additional-template-replace-functions
-                        "See `fountain-export-formats'." "2.4.0")
+                        "see `fountain-export-formats'."
+                        "fountain-mode-2.4.0")
 
 (make-obsolete 'fountain-insert-metadata
-               'auto-insert "2.1.2")
+               'auto-insert "fountain-mode-2.1.2")
 
 (make-obsolete-variable 'fountain-metadata-template
-                        'fountain-metadata-skeleton "2.1.2")
+                        'fountain-metadata-skeleton
+                        "fountain-mode-2.1.2")
 
 (make-obsolete-variable 'fountain-long-time-format
-                        'fountain-time-format "2.1.2")
+                        'fountain-time-format
+                        "fountain-mode-2.1.2")
 
 (define-obsolete-variable-alias 'fountain-short-time-format
-  'fountain-time-format "2.1.2")
+  'fountain-time-format "fountain-mode-2.1.2")
 
 (make-obsolete-variable 'fountain-export-templates
-                        "Use individual export templates instead." "2.1.4")
+                        "use individual export templates instead."
+                        "fountain-mode-2.1.4")
 
 (define-obsolete-variable-alias 'fountain-align-scene-number
-  'fountain-display-scene-numbers-in-margin "2.3.0")
+  'fountain-display-scene-numbers-in-margin "fountain-mode-2.3.0")
 
 (make-obsolete-variable 'fountain-export-format-replace-alist
-                        "See `fountain-export-formats'." "2.4.0")
+                        "see `fountain-export-formats'."
+                        "fountain-mode-2.4.0")
 
 (make-obsolete-variable 'fountain-export-title-format
-                        "Edit individual export templates instead." "2.4.0")
+                        "edit individual export templates instead."
+                        "fountain-mode-2.4.0")
 
 (define-obsolete-variable-alias 'fountain-trans-list
-  'fountain-trans-suffix-list "2.2.2")
+  'fountain-trans-suffix-list "fountain-mode-2.2.2")
 
 (make-obsolete-variable 'fountain-switch-comment-syntax
-                        "Use the standard comment syntax instead." "2.4.0")
+                        "use the standard comment syntax instead."
+                        "fountain-mode-2.4.0")
 
 (define-obsolete-variable-alias 'fountain-export-include-elements-alist
-  'fountain-export-include-elements "2.4.0")
+  'fountain-export-include-elements "fountain-mode-2.4.0")
 
 (define-obsolete-variable-alias 'fountain-export-standalone
-  'fountain-export-make-standalone "2.4.0")
+  'fountain-export-make-standalone "fountain-mode-2.4.0")
 
 (define-obsolete-variable-alias 'fountain-export-buffer-name
-  'fountain-export-tmp-buffer-name "2.4.0")
+  'fountain-export-tmp-buffer-name "fountain-mode-2.4.0")
 
 (make-obsolete-variable 'fountain-outline-startup-level
-                        'fountain-outline-custom-level "2.5.4")
+                        'fountain-outline-custom-level
+                        "fountain-mode-2.5.4")
 
 (make-obsolete-variable 'fountain-endnotes-buffer
-                        "Use a third-party package instead" "2.6.0")
+                        "use a third-party package instead."
+                        "fountain-mode-2.6.0")
 
 (make-obsolete-variable 'fountain-endnotes-window-side
-                        "Use a third-party package instead" "2.6.0")
+                        "use a third-party package instead."
+                        "fountain-mode-2.6.0")
 
 (make-obsolete-variable 'fountain-endnotes-window-size
-                        "Use a third-party package instead" "2.6.0")
+                        "use a third-party package instead."
+                        "fountain-mode-2.6.0")
+
+(make-obsolete-variable 'fountain-tab-command
+                        "edit `fountain-mode-map' instead."
+                        "fountain-mode-2.7.0")
 
 
 ;;; Customization
@@ -536,17 +566,40 @@ e.g.
   nil
   "Regular expression for matching scene headings.
 
-    Group 1: match leading . (for forced scene heading)
+    Group 1: match leading . for forced scene heading
     Group 2: match whole scene heading without scene number
     Group 3: match INT/EXT
     Group 4: match location
-    Group 5: match time of day
-    Group 6: match space between scene heading and scene number
-    Group 7: match first # delimiter
-    Group 8: match scene number
-    Group 9: match last # delimiter
+    Group 5: match suffix separator
+    Group 6: match suffix
+    Group 7: match space between scene heading and scene number
+    Group 8: match first # delimiter
+    Group 9: match scene number
+    Group 10: match last # delimiter
 
 Requires `fountain-match-scene-heading' for preceding blank line.")
+
+(defcustom fountain-scene-heading-suffix-sep
+  " - "
+  "String separating scene heading location from suffix.
+
+WARNING: If you change this any existing scene headings will no
+longer be parsed correctly."
+  :type 'string
+  :safe 'string
+  :set #'fountain--set-and-refresh-all-font-lock)
+
+(defcustom fountain-scene-heading-suffix-list
+  '("DAY" "NIGHT" "CONTINUOUS" "LATER" "MOMENTS LATER")
+  "List of scene heading suffixes (case insensitive).
+
+These are only used for auto-completion. Any scene headings can
+have whatever suffix you like.
+
+Separated from scene heading locations with
+`fountain-scene-heading-suffix-sep'."
+  :type '(repeat (string :tag "Suffix"))
+  :set #'fountain--set-and-refresh-all-font-lock)
 
 (defvar fountain-trans-regexp
   nil
@@ -804,10 +857,6 @@ To switch between these levels, customize the value of
   '((t (:inherit font-lock-preprocessor-face)))
   "Default face for template keys.")
 
-(defface fountain-auto-upcase-highlight
-  '((t (:inherit hi-yellow)))
-  "Default face for highlighting line for auto-upcasing.")
-
 
 ;;; Initializing
 
@@ -869,33 +918,35 @@ scene heading regular expression."
          ;; Group 2: match scene heading without scene number
          "\\(?2:\\<"
          ;; Group 4: match location
-         "\\(?4:.+?\\)[\s\t]*"
-         ;; Group 5: match time of day
-         "\\(?:--?[\s\t]*\\(?5:.+?\\)\\)?"
+         "\\(?4:.+?\\)"
+         ;; Group 5: match suffix separator
+         "\\(?:\\(?5:" fountain-scene-heading-suffix-sep "\\)"
+         ;; Group 6: match suffix
+         "\\(?6:.+\\)?\\)?"
          "\\)\\|"
          ;;; Match normal scene heading
          ;; Group 2: match scene heading without scene number
          "^\\(?2:"
          ;; Group 3: match INT/EXT
-         "\\(?3:"
-         (regexp-opt fountain-scene-heading-prefix-list)
-         "\\)[.\s\t][\s\t]*"
+         "\\(?3:" (regexp-opt fountain-scene-heading-prefix-list) ".?\s+\\)"
          ;; Group 4: match location
-         "\\(?4:.+?\\)[\s\t]*"
-         ;; Group 5: match time of day
-         "\\(?:--?[\s\t]*\\(?5:.+?\\)\\)?"
+         "\\(?4:.+?\\)?"
+         ;; Group 5: match suffix separator
+         "\\(?:\\(?5:" fountain-scene-heading-suffix-sep "\\)"
+         ;; Group 6: match suffix
+         "\\(?6:.+?\\)?\\)?"
          "\\)\\)"
          ;;; Match scene number
          "\\(?:"
-         ;; Group 6: match space between scene heading and scene number
-         "\\(?6:[\s\t]+\\)"
-         ;; Group 7: match first # delimiter
-         "\\(?7:#\\)"
-         ;; Group 8: match scene number
-         "\\(?8:[0-9a-z\\.-]+\\)"
-         ;; Group 9: match last # delimiter
-         "\\(?9:#\\)\\)?"
-         "[\s\t]*$")))
+         ;; Group 7: match space between scene heading and scene number
+         "\\(?7:\s+\\)"
+         ;; Group 8: match first # delimiter
+         "\\(?8:#\\)"
+         ;; Group 9: match scene number
+         "\\(?9:[0-9a-z\\.-]+\\)"
+         ;; Group 10: match last # delimiter
+         "\\(?10:#\\)\\)?"
+         "\s*$")))
 
 (defun fountain-init-trans-regexp ()
   "Initialize transition regular expression.
@@ -988,11 +1039,8 @@ In Emacs versions prior to 26, adds advice to override
 after POS or point has invisible text property eq to 'outline.
 See <http://debbugs.gnu.org/24073>."
   ;; In Emacs version prior to 26, `outline-invisible-p' returns non-nil for ANY
-  ;; invisible property of text at point:
-  ;;
-  ;; (get-char-property (or pos (point)) 'invisible))
-  ;;
-  ;; We want to only return non-nil if property is 'outline
+  ;; invisible property of text at point. We want to only return non-nil if
+  ;; property is 'outline
   (unless (or (advice-member-p 'fountain-outline-invisible-p 'outline-invisible-p)
               (<= 26 emacs-major-version))
     (advice-add 'outline-invisible-p :override #'fountain-outline-invisible-p)
@@ -1203,30 +1251,19 @@ Assumes that all other element matching has been done."
 
 ;;; Auto-completion
 
-(defvar-local fountain-completion-scene-headings
+(defvar-local fountain-completion-locations
   nil
-  "List of scene headings in the current buffer.")
+  "List of scene locations in the current buffer.")
 
 (defvar-local fountain-completion-characters
   nil
   "List of characters in the current buffer.
-Each element is a cons (NAME . PRIORITY)  where NAME is a string, and
-PRIORITY is an integer.
+Each element is a cons (NAME . OCCUR) where NAME is a string, and
+OCCUR is an integer representing the character's number of
+occurrences. ")
 
-n.b. The priority value does not equate to the number of lines
-the character has.")
-
-(defvar-local fountain--edit-line
-  nil
-  "Line number currently being edited.
-Prevents incomplete strings added to candidates.")
-
-(defun fountain-completion-update-scene-headings (start end)
-  "Update `fountain-completion-scene-headings' between START and END.
-
-Added to `jit-lock-functions'."
-  ;; FIXME: Doing this within jit-lock is unreliable.  It should be done within
-  ;; *-change-functions instead!
+(defun fountain-completion-update-locations (start end &optional length)
+  "Update `fountain-completion-locations' between START and END."
   (goto-char end)
   (if (fountain-match-scene-heading)
       (forward-line)
@@ -1235,20 +1272,14 @@ Added to `jit-lock-functions'."
   (goto-char start)
   (fountain-forward-scene 0)
   (while (< (point) end)
-    (when (and (not (and (integerp fountain--edit-line)
-                         (= fountain--edit-line (line-number-at-pos))))
-               (fountain-match-scene-heading))
-      (let ((scene-heading (match-string-no-properties 2)))
-        (unless (member scene-heading fountain-completion-scene-headings)
-          (push scene-heading fountain-completion-scene-headings))))
+    (when (fountain-match-scene-heading)
+      (let ((location (match-string-no-properties 4)))
+        (unless (member location fountain-completion-locations)
+          (push location fountain-completion-locations))))
     (fountain-forward-scene 1)))
 
-(defun fountain-completion-update-characters (start end)
-  "Update `fountain-completion-characters' between START and END.
-
-Added to `jit-lock-functions'."
-  ;; FIXME: Doing this within jit-lock is unreliable.  It should be done within
-  ;; *-change-functions instead!
+(defun fountain-completion-update-characters (start end &optional length)
+  "Update `fountain-completion-characters' in current buffer."
   (goto-char end)
   (if (fountain-match-scene-heading)
       (forward-line)
@@ -1257,9 +1288,7 @@ Added to `jit-lock-functions'."
   (goto-char start)
   (fountain-forward-scene 0)
   (while (< (point) end)
-    (when (and (not (and (integerp fountain--edit-line)
-                         (= fountain--edit-line (line-number-at-pos))))
-               (fountain-match-character))
+    (when (fountain-match-character)
       (let* ((character (match-string-no-properties 4))
              (candidate (assoc-string character fountain-completion-characters))
              (n (cdr candidate)))
@@ -1313,37 +1342,48 @@ characters from `fountain-completion-characters'."
 
 (defun fountain-completion-at-point ()
   "\\<fountain-mode-map>Return completion table for entity at point.
-Trigger completion with \\[completion-at-point].
+Trigger completion with \\[fountain-dwim].
 
 Always delimits entity from beginning of line to point. If at a
 scene heading, return `fountain-scene-heading-candidates'. If
 previous line is blank, return result of
 `fountain-completion-get-characters'.
 
-Set `completion-in-region-mode-map' to nil to retain TAB
-keybinding.
-
 Added to `completion-at-point-functions'."
-  (let (completion-in-region-mode-map jit-lock-mode)
-    (list (line-beginning-position)
-          (point)
-          (completion-table-case-fold
-           (cond
-            ((fountain-match-scene-heading)
-             fountain-completion-scene-headings)
-            ((fountain-blank-before-p)
-             (fountain-completion-get-characters)))))))
+  (cond ((and (fountain-match-scene-heading)
+              (match-string 5))
+         ;; Return scene heading suffix completion
+         (list (match-end 5)
+               (point)
+               (completion-table-case-fold
+                fountain-scene-heading-suffix-list)))
+        ((and (fountain-match-scene-heading)
+              (match-string 3))
+         ;; Return scene location completion
+         (list (match-end 3)
+               (point)
+               (completion-table-case-fold
+                fountain-completion-locations)))
+        ((and (fountain-match-scene-heading)
+              (match-string 1))
+         ;; Return scene location completion (forced)
+         (list (match-end 1)
+               (point)
+               (completion-table-case-fold
+                fountain-completion-locations)))
+        ((fountain-blank-before-p)
+         ;; Return character completion
+         (list (line-beginning-position)
+               (point)
+               (completion-table-case-fold
+                (fountain-completion-get-characters))))))
 
 (defun fountain-completion-update ()
-  "Create new completion candidates for current buffer.
+  "Update completion candidates for current buffer.
 
-Completion candidates are usually updated automatically with
-`jit-lock-mode', however this command will add completion
-candidates for the entire buffer.
-
-Add to `fountain-mode-hook' to have full completion upon load."
+Add to `fountain-mode-hook' to have completion upon load."
   (interactive)
-  (setq fountain-completion-scene-headings nil
+  (setq fountain-completion-locations nil
         fountain-completion-characters nil)
   (save-excursion
     (save-restriction
@@ -1375,34 +1415,6 @@ script, you may get incorrect output."
   "Non-nil if counting pages should ignore buffer narrowing."
   :type 'boolean
   :safe 'booleanp)
-
-(defvar fountain-page-count-timer
-  nil)
-
-(defvar-local fountain-page-count-string
-  nil)
-
-(defcustom fountain-pages-count-delay
-  2.0
-  "Idle time in seconds before calculating page count."
-  :type 'number
-  :safe 'numberp)
-
-(defcustom fountain-pages-show-in-mode-line
-  nil
-  "If non-nil show current page of total pages in mode-line."
-  :type '(choice (const :tag "No page count" nil)
-                 (const :tag "Show with manual update" force)
-                 (const :tag "Show with automatic update" timer))
-  :safe (lambda (value) (memq value '(nil force timer)))
-  :set (lambda (symbol value)
-         (set-default symbol value)
-         ;; Don't call fountain-count-pages-maybe while in the middle of
-         ;; loading this file!
-         (when (featurep 'fountain-mode)
-           (dolist (buffer (buffer-list))
-             (with-current-buffer buffer
-               (fountain-count-pages-maybe value))))))
 
 (defvar fountain-elements
   '((section-heading
@@ -1664,60 +1676,12 @@ number."
             (setq current total found t)))
         (cons current total)))))
 
-(defun fountain-count-pages (&optional interactive)
-  "Return the approximate current page of total pages in current buffer.
-
-If called interactively, sets INTERACTIVE as non-nil
-unconditionally and prints a message in the echo area."
-  (interactive "p")
-  (fountain-pages-update-mode-line)
-  (redisplay)
+(defun fountain-count-pages ()
+  "Message the current page of total pages in current buffer.
+n.b. This is an approximate calculation."
+  (interactive)
   (let ((pages (fountain-get-page-count)))
-    (fountain-pages-update-mode-line (car pages) (cdr pages))
-    (when interactive
-      (message "Page %d of %d" (car pages) (cdr pages)))))
-
-(defun fountain-pages-update-mode-line (&optional current total)
-  (setq fountain-page-count-string
-        (if fountain-pages-show-in-mode-line
-            (if (and current total)
-                (format "[%d/%d] " current total)
-              "[-/-] ")
-          nil))
-  (force-mode-line-update))
-
-(defun fountain-count-pages-maybe (&optional force)
-  (when (derived-mode-p 'fountain-mode)
-    (while-no-input
-      (redisplay)
-      (cond (force
-             (fountain-count-pages))
-            ((eq fountain-pages-show-in-mode-line 'timer)
-             (fountain-count-pages))
-            ((and fountain-page-count-string
-                  (not fountain-pages-show-in-mode-line))
-             (fountain-pages-update-mode-line))))))
-
-(defun fountain-init-mode-line ()
-  (let ((tail (cdr (memq 'mode-line-modes mode-line-format))))
-    (setq mode-line-format
-          (append
-           (butlast mode-line-format (length tail))
-           (cons 'fountain-page-count-string tail)))))
-
-(defun fountain-cancel-page-count-timer ()
-  (when (timerp fountain-page-count-timer)
-    (cancel-timer fountain-page-count-timer))
-  (setq fountain-page-count-timer nil))
-
-(defun fountain-restart-page-count-timer ()
-  (fountain-cancel-page-count-timer)
-  (setq fountain-page-count-timer
-        ;; FIXME: `fountain-count-pages-maybe' only operates in the "current"
-        ;; buffer, but that will be the buffer that happens to be current when
-        ;; the timer is run.
-        (run-with-idle-timer fountain-pages-count-delay t
-                             #'fountain-count-pages-maybe)))
+    (message "Page %d of %d" (car pages) (cdr pages))))
 
 
 ;;; Templating
@@ -2260,8 +2224,7 @@ Passed to `format' with export format as single variable."
   t
   "If non-nil, include a title page in export."
   :type 'boolean
-  :safe 'booleanp
-  :set #'fountain--set-and-refresh-all-font-lock)
+  :safe 'booleanp)
 
 (defcustom fountain-export-contact-align-right
   nil
@@ -4051,137 +4014,41 @@ halt at end of scene."
 
 ;;; Editing
 
-(require 'help)
-
-(defun fountain-set-edit-line ()
-  "Set `fountain--edit-line' to current line.
-
-Added to `post-command-hook'."
-  (setq fountain--edit-line (line-number-at-pos)))
-
 (defcustom fountain-auto-upcase-scene-headings
   t
   "If non-nil, automatically upcase lines matching `fountain-scene-heading-regexp'."
   :type 'boolean
   :group 'fountain)
 
-(defvar-local fountain--auto-upcase-line
-  nil
-  "Integer of line number to auto-upcase.
-If nil, auto-upcase is deactivated.")
-
-(defvar-local fountain--auto-upcase-overlay
-  nil
-  "Overlay used for auto-upcasing current line.")
-
-(define-obsolete-variable-alias 'fountain-tab-command
-  'fountain-tab-function "fountain-mode-2.7.0")
-(defcustom fountain-tab-function
-  #'fountain-dwim
-  "Command to call when pressing the TAB key."
-  :type '(radio (function-item fountain-dwim)
-                (function-item fountain-outline-cycle)
-                (function-item fountain-toggle-auto-upcase)
-                (function-item completion-at-point))
-  :group 'fountain)
-
-(defun fountain-tab-action (&optional arg)
-  "Simply calls the value of variable `fountain-tab-function'."
-  (interactive "p")
-  (condition-case nil
-      (funcall fountain-tab-function arg)
-    (wrong-number-of-arguments (funcall fountain-tab-function))))
-
-(defun fountain-auto-upcase-make-overlay ()
-  "Make the auto-upcase overlay on current line.
-
-If overlay `fountain--auto-upcase-overlay' already exists, delete
-it first.
-
-Make the overlay and add the face
-`fountain-auto-upcase-highlight'."
-  (when (overlayp fountain--auto-upcase-overlay)
-    (delete-overlay fountain--auto-upcase-overlay))
-  (setq fountain--auto-upcase-overlay
-        (make-overlay (line-beginning-position 1)
-                      (line-beginning-position 2) nil nil t))
-  (overlay-put fountain--auto-upcase-overlay 'face 'fountain-auto-upcase-highlight))
-
-(defun fountain-auto-upcase-deactivate-maybe (&optional deactivate)
-  "Maybe deactivate auto-upcasing.
-Always deactivate if optional argument DEACTIVATE is non-nil.
-
-Added as hook to `post-command-hook'."
-  (when (or deactivate
-            (and (integerp fountain--auto-upcase-line)
-                 (/= fountain--auto-upcase-line (line-number-at-pos))))
-    (setq fountain--auto-upcase-line nil)
-    (when (overlayp fountain--auto-upcase-overlay)
-      (delete-overlay fountain--auto-upcase-overlay))
-    (message "Auto-upcasing deactivated")))
-
-(defun fountain-toggle-auto-upcase ()
-  "Toggle line auto-upcasing.
-
-Upcase the current line, and continue to upcase inserted
-characters until either disabled, or point moves to a different
-line (by inserting a newline or by point motion).
-
-The auto-upcased line is highlighted with face
-`fountain-auto-upcase-highlight'"
-  (interactive)
-  (if fountain--auto-upcase-line
-      (fountain-auto-upcase-deactivate-maybe t)
-    (setq fountain--auto-upcase-line (line-number-at-pos))
-    (message "Auto-upcasing activated")
-    (fountain-auto-upcase)))
-
 (defun fountain-auto-upcase ()
   "Upcase all or part of the current line contextually.
 
 If `fountain-auto-upcase-scene-headings' is non-nil and point is
 at a scene heading, activate auto upcasing for beginning of line
-to scene number or point.
-
-Otherwise, activate auto-upcasing for the whole line.
-
-Added as hook to `post-self-insert-hook'."
-  (cond ((and fountain-auto-upcase-scene-headings
-              (fountain-match-scene-heading))
-         (unless (and (integerp fountain--auto-upcase-line)
-                      (= fountain--auto-upcase-line (line-number-at-pos)))
-           (setq fountain--auto-upcase-line (line-number-at-pos))
-           (message "Auto-upcasing activated"))
-         (fountain-auto-upcase-make-overlay)
-         (upcase-region (line-beginning-position) (or (match-end 2) (point))))
-        ((and (integerp fountain--auto-upcase-line)
-              (= fountain--auto-upcase-line (line-number-at-pos)))
-         (fountain-auto-upcase-make-overlay)
-         (fountain-upcase-line))))
+to scene number or point."
+  (when (and fountain-auto-upcase-scene-headings
+             (fountain-match-scene-heading))
+    (upcase-region (line-beginning-position) (or (match-end 2) (point)))))
 
 (defun fountain-dwim (&optional arg)
-  "\\<fountain-mode-map>Call a command based on context (Do What I Mean).
+  "Call a command based on context (Do What I Mean).
 
-1. If point is at a scene heading or section heading, or within a
-   folded scene or section, or if prefixed with ARG, call
-   `fountain-outline-cycle' and pass ARG.
+1. If prefixed with ARG, call `fountain-outline-cycle' and pass
+   ARG.
 
-2. If point is at a directive to an included file, call
-   `fountain-find-included-file'.
+2. If point is at the beginning of a scene heading or section
+   heading call `fountain-outline-cycle'.
 
-3. Otherwise, call `fountain-toggle-auto-upcase'."
+3. Otherwise, call `complation-at-point'."
   (interactive "p")
   (cond ((and arg (< 1 arg))
          (fountain-outline-cycle arg))
+        ((eolp)
+         (completion-at-point))
         ((or (fountain-match-section-heading)
              (fountain-match-scene-heading)
              (eq (get-char-property (point) 'invisible) 'outline))
-         (fountain-outline-cycle))
-        ((and (fountain-match-template)
-              (string-match-p "include" (match-string 1)))
-         (fountain-find-included-file))
-        (t
-         (fountain-toggle-auto-upcase))))
+         (fountain-outline-cycle))))
 
 (defun fountain-upcase-line (&optional arg)
   "Upcase the line.
@@ -4335,14 +4202,14 @@ WARNING: Using conflicting revised scene number format in the
 same script may result in errors in output."
   :type 'boolean
   :safe 'booleanp
-  :group 'fountain)
+  :group 'fountain-scene-numbers)
 
 (defcustom fountain-scene-number-first-revision
   ?A
   "Character to start revised scene numbers."
   :type 'character
   :safe 'characterp
-  :group 'fountain-scene-number)
+  :group 'fountain-scene-numbers)
 
 (defcustom fountain-scene-number-separator
   nil
@@ -4352,7 +4219,7 @@ same script may result in errors in output."
   :safe '(lambda (value)
            (or (null value)
                (characterp value)))
-  :group 'fountain-scene-number)
+  :group 'fountain-scene-numbers)
 
 (defun fountain-scene-number-to-list (string)
   "Read scene number STRING and return a list.
@@ -4610,16 +4477,16 @@ scene number from being auto-upcased."
               :invisible fountain-syntax-chars
               :override prepend
               :laxmatch t)
-      (:level 2 :subexp 6
+      (:level 2 :subexp 7
               :laxmatch t)
-      (:level 2 :subexp 7 :face fountain-non-printing
+      (:level 2 :subexp 8 :face fountain-non-printing
               :invisible fountain-syntax-chars
               :override prepend
               :laxmatch t)
-      (:level 2 :subexp 8
+      (:level 2 :subexp 9
               :override prepend
               :laxmatch t)
-      (:level 2 :subexp 9 :face fountain-non-printing
+      (:level 2 :subexp 10 :face fountain-non-printing
               :invisible fountain-syntax-chars
               :override prepend
               :laxmatch t))
@@ -4844,10 +4711,10 @@ keywords suitable for Font Lock."
   (while (< (point) (min end (point-max)))
     (when (fountain-match-scene-heading)
       (if (and fountain-display-scene-numbers-in-margin
-               (match-string 8))
-          (put-text-property (match-beginning 6) (match-end 9)
+               (match-string 9))
+          (put-text-property (match-beginning 7) (match-end 10)
                              'display (list '(margin right-margin)
-                                            (match-string-no-properties 8)))
+                                            (match-string-no-properties 9)))
         (remove-text-properties (match-beginning 0) (match-end 0)
                                 '(display))))
     (forward-line)))
@@ -4858,13 +4725,14 @@ keywords suitable for Font Lock."
 (defvar fountain-mode-map
   (let ((map (make-sparse-keymap)))
     ;; Editing commands:
-    (define-key map (kbd "TAB") #'fountain-tab-action)
+    (define-key map (kbd "TAB") #'fountain-dwim)
     (define-key map (kbd "C-c RET") #'fountain-upcase-line-and-newline)
     (define-key map (kbd "<S-return>") #'fountain-upcase-line-and-newline)
     (define-key map (kbd "C-c C-c") #'fountain-upcase-line)
     (define-key map (kbd "C-c C-d") #'fountain-continued-dialog-refresh)
     (define-key map (kbd "C-c C-z") #'fountain-insert-note)
     (define-key map (kbd "C-c C-a") #'fountain-insert-synopsis)
+    (define-key map (kbd "C-c C-o") #'fountain-include-find-file)
     (define-key map (kbd "C-c C-x i") #'auto-insert)
     (define-key map (kbd "C-c C-x #") #'fountain-add-scene-numbers)
     (define-key map (kbd "C-c C-x _") #'fountain-remove-scene-numbers)
@@ -4872,9 +4740,6 @@ keywords suitable for Font Lock."
     (define-key map (kbd "C-c C-x RET") #'fountain-insert-page-break)
     (define-key map (kbd "M-TAB") #'completion-at-point)
     (define-key map (kbd "C-c C-x a") #'fountain-completion-update)
-    ;; FIXME: `fountain-include-find-file' feels like it should be C-c C-c,
-    ;; (currently mapped to `fountain-upcase-line').
-    ;; (define-key map (kbd "C-c C-c") #'fountain-include-find-file)
     ;; Navigation commands:
     (define-key map [remap beginning-of-defun] #'fountain-beginning-of-scene)
     (define-key map [remap end-of-defun] #'fountain-end-of-scene)
@@ -4946,7 +4811,7 @@ keywords suitable for Font Lock."
      ["Shift Element Down" fountain-shift-down]
      "---"
      ["Shift All Elements" (customize-set-variable 'fountain-shift-all-elements
-                                                   (not fountain-shift-all-elements))
+                                             (not fountain-shift-all-elements))
       :style toggle
       :selected fountain-shift-all-elements])
     ("Scene Numbers"
@@ -4958,25 +4823,11 @@ keywords suitable for Font Lock."
                               (not fountain-display-scene-numbers-in-margin))
       :style toggle
       :selected fountain-display-scene-numbers-in-margin])
-    ("Page Numbers"
-     ["Count Pages" fountain-count-pages]
-     "---"
-     ["Don't Show in Mode Line"
-      (customize-set-variable 'fountain-pages-show-in-mode-line nil)
-      :style radio
-      :selected (not fountain-pages-show-in-mode-line)]
-     ["Show in Mode Line with Manual Update"
-      (customize-set-variable 'fountain-pages-show-in-mode-line 'force)
-      :style radio
-      :selected (eq fountain-pages-show-in-mode-line 'force)]
-     ["Show in Mode Line with Automatic Update"
-      (customize-set-variable 'fountain-pages-show-in-mode-line 'timer)
-      :style radio
-      :selected (eq fountain-pages-show-in-mode-line 'timer)])
     "---"
     ["Insert Metadata..." auto-insert]
     ["Insert Synopsis" fountain-insert-synopsis]
     ["Insert Note" fountain-insert-note]
+    ["Count Pages" fountain-count-pages]
     ["Insert Page Break..." fountain-insert-page-break]
     ["Refresh Continued Dialog" fountain-continued-dialog-refresh]
     ["Update Auto-Completion" fountain-completion-update]
@@ -4993,10 +4844,12 @@ keywords suitable for Font Lock."
      "---"
      ["Run Shell Command" fountain-export-shell-command]
      "---"
-     ["US Letter Page Size" (customize-set-variable 'fountain-export-page-size 'letter)
+     ["US Letter Page Size" (customize-set-variable 'fountain-export-page-size
+                                                    'letter)
       :style radio
       :selected (eq fountain-export-page-size 'letter)]
-     ["A4 Page Size" (customize-set-variable 'fountain-export-page-size 'a4)
+     ["A4 Page Size" (customize-set-variable 'fountain-export-page-size
+                                             'a4)
       :style radio
       :selected (eq fountain-export-page-size 'a4)]
      "---"
@@ -5008,44 +4861,31 @@ keywords suitable for Font Lock."
      ["Bold Scene Headings"
       (if (memq 'bold fountain-export-scene-heading-format)
           (customize-set-variable 'fountain-export-scene-heading-format
-                                  (remq 'bold fountain-export-scene-heading-format))
+                             (remq 'bold fountain-export-scene-heading-format))
         (customize-set-variable 'fountain-export-scene-heading-format
-                                (cons 'bold fountain-export-scene-heading-format)))
+                            (cons 'bold fountain-export-scene-heading-format)))
       :style toggle
       :selected (memq 'bold fountain-export-scene-heading-format)]
      ["Double-Space Scene Headings"
       (if (memq 'double-space fountain-export-scene-heading-format)
           (customize-set-variable 'fountain-export-scene-heading-format
-                                  (remq 'double-space fountain-export-scene-heading-format))
+                     (remq 'double-space fountain-export-scene-heading-format))
         (customize-set-variable 'fountain-export-scene-heading-format
-                                (cons 'double-space fountain-export-scene-heading-format)))
+                    (cons 'double-space fountain-export-scene-heading-format)))
       :style toggle
       :selected (memq 'double-space fountain-export-scene-heading-format)]
      ["Underline Scene Headings"
       (if (memq 'underline fountain-export-scene-heading-format)
           (customize-set-variable 'fountain-export-scene-heading-format
-                                  (remq 'underline fountain-export-scene-heading-format))
+                        (remq 'underline fountain-export-scene-heading-format))
         (customize-set-variable 'fountain-export-scene-heading-format
-                                (cons 'underline fountain-export-scene-heading-format)))
+                       (cons 'underline fountain-export-scene-heading-format)))
       :style toggle
       :selected (memq 'underline fountain-export-scene-heading-format)]
      "---"
      ["Customize Export"
       (customize-group 'fountain-export)])
     "---"
-    ("TAB Command"
-     ["Contextual (Do What I Mean)" (customize-set-variable 'fountain-tab-command 'fountain-dwim)
-      :style radio
-      :selected (eq fountain-tab-command 'fountain-dwim)]
-     ["Cycle Outline Visibility" (customize-set-variable 'fountain-tab-command 'fountain-outline-cycle)
-      :style radio
-      :selected (eq fountain-tab-command 'fountain-outline-cycle)]
-     ["Toggle Auto-Upcasing" (customize-set-variable 'fountain-tab-command 'fountain-toggle-auto-upcase)
-      :style radio
-      :selected (eq fountain-tab-command 'fountain-toggle-auto-upcase)]
-     ["Auto-Completion" (customize-set-variable 'fountain-tab-command 'completion-at-point)
-      :style radio
-      :selected (eq fountain-tab-command 'completion-at-point)])
     ("Syntax Highlighting"
      ["Minimum"
       (fountain-set-font-lock-decoration 1)
@@ -5098,7 +4938,6 @@ keywords suitable for Font Lock."
                       fountain-auto-upcase-scene-headings
                       fountain-add-continued-dialog
                       fountain-display-scene-numbers-in-margin
-                      fountain-pages-show-in-mode-line
                       fountain-hide-emphasis-delim
                       fountain-hide-syntax-chars
                       fountain-shift-all-elements
@@ -5121,17 +4960,9 @@ keywords suitable for Font Lock."
   :group 'fountain
   (fountain-init-vars)
   (face-remap-add-relative 'default 'fountain)
-  (add-hook 'post-command-hook #'fountain-set-edit-line nil t)
-  (add-hook 'post-command-hook #'fountain-auto-upcase-deactivate-maybe nil t)
   (add-hook 'post-self-insert-hook #'fountain-auto-upcase nil t)
   (when fountain-patch-emacs-bugs (fountain-patch-emacs-bugs))
-  (jit-lock-register #'fountain-redisplay-scene-numbers)
-  ;; FIXME: Merge those two functions into one (and move them to
-  ;; *-change-functions)
-  (jit-lock-register #'fountain-completion-update-scene-headings)
-  (jit-lock-register #'fountain-completion-update-characters)
-  (fountain-init-mode-line)
-  (fountain-restart-page-count-timer))
+  (jit-lock-register #'fountain-redisplay-scene-numbers))
 
 (provide 'fountain-mode)
 

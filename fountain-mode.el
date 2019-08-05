@@ -4,7 +4,7 @@
 
 ;; Author: Paul W. Rankin <pwr@sdf.org>
 ;; Keywords: wp, text
-;; Version: 2.7.2
+;; Version: 2.7.3
 ;; Package-Requires: ((emacs "24.5"))
 ;; URL: https://fountain-mode.org
 
@@ -29,9 +29,9 @@
 
 ;; Fountain Mode is a screenwriting environment for GNU Emacs using the
 ;; Fountain markup format. For more information on the Fountain markup
-;; format, visit http://fountain.io.
+;; format, visit <http://fountain.io>.
 
-;; Screenshot: https://f002.backblazeb2.com/file/pwr-share/fountain-mode.png
+;; Screenshot: <https://f002.backblazeb2.com/file/pwr-share/fountain-mode.png>
 
 ;; ## Features ##
 
@@ -61,10 +61,10 @@
 ;; Check out the Nicholl Fellowship sample script exported from Fountain
 ;; Mode to the following formats:
 
-;; - plain text: https://f002.backblazeb2.com/file/pwr-share/Nicholl_Fellowship_sample.txt
-;; - HTML: https://f002.backblazeb2.com/file/pwr-share/fountain-export.html
-;; - Final Draft: https://f002.backblazeb2.com/file/pwr-share/fountain-export.fdx
-;; - LaTeX: https://www.overleaf.com/project/54ed9180966959cb7fdbde8e
+;; - plain text: <https://f002.backblazeb2.com/file/pwr-share/Nicholl_Fellowship_sample.txt>
+;; - HTML: <https://f002.backblazeb2.com/file/pwr-share/fountain-export.html>
+;; - Final Draft: <https://f002.backblazeb2.com/file/pwr-share/fountain-export.fdx>
+;; - LaTeX: <https://www.overleaf.com/project/54ed9180966959cb7fdbde8e>
 
 ;; Most common features are accessible from the menu. For a full list of
 ;; functions and key-bindings, type C-h m.
@@ -81,7 +81,7 @@
 ;; package-install RET fountain-mode RET.
 
 ;; You can manually download the latest release from
-;; https://elpa.gnu.org/packages/fountain-mode.html
+;; <https://elpa.gnu.org/packages/fountain-mode.html>
 
 ;; Move this file into your load-path and add (require 'fountain-mode) to
 ;; your .emacs/init.el file.
@@ -97,13 +97,13 @@
 
 ;; ## History ##
 
-;; See: https://github.com/rnkn/fountain-mode/releases
+;; See: <https://github.com/rnkn/fountain-mode/releases>
 
 ;; ## Bugs ##
 
-;; To report bugs, use https://github.com/rnkn/fountain-mode/issues, or M-x
-;; report-emacs-bug RET or send an email to <bug-gnu-emacs@gnu.org> (please
-;; include "fountain" in the subject).
+;; To report bugs, either use <https://github.com/rnkn/fountain-mode/issues>
+;; or M-x report-emacs-bug RET or send an email to <bug-gnu-emacs@gnu.org>
+;; (please include "fountain" in the subject).
 
 
 ;;; Code:
@@ -643,9 +643,9 @@ Set with `fountain-init-trans-regexp'. Requires
   "Regular expression for matching comments.")
 
 (defconst fountain-metadata-regexp
-  (concat "^\\(?1:\\(?2:[^[{:\n]+\\):[\s\t]*\\(?3:.+\\)?\\)"
+  (concat "^\\(?1:\\(?2:[^:\n]+\\):[\s\t]*\\(?3:.+\\)?\\)[\s\t]*"
           "\\|"
-          "^[\s\t]+\\(?1:\\(?3:.+\\)\\)")
+          "^[\s\t]+\\(?1:\\(?3:.+\\)\\)[\s\t]*")
   "Regular expression for matching multi-line metadata values.
 Requires `fountain-match-metadata' for `bobp'.")
 
@@ -1799,8 +1799,9 @@ Value string remains a string. e.g.
       (widen)
       (goto-char (point-min))
       (let (list)
-        (while (fountain-match-metadata)
-          (let ((key (match-string 2))
+        (while (and (bolp)
+                    (fountain-match-metadata))
+          (let ((key (match-string-no-properties 2))
                 (value (match-string-no-properties 3)))
             (forward-line)
             (while (and (fountain-match-metadata)
@@ -3573,6 +3574,7 @@ Otherwise, only operate on section and scene headings."
 (defalias 'fountain-outline-backward 'outline-backward-same-level)
 (defalias 'fountain-outline-up 'outline-up-heading)
 (defalias 'fountain-outline-mark 'outline-mark-subtree)
+(defalias 'fountain-outline-show-all 'outline-show-all)
 
 (when (< emacs-major-version 25)
   (defalias 'outline-show-all 'show-all)
@@ -4842,9 +4844,7 @@ keywords suitable for Font Lock."
      "---"
      ["Cycle Outline Visibility" fountain-outline-cycle]
      ["Cycle Global Outline Visibility" fountain-outline-cycle-global]
-     ;; FIXME: this would be better as an alias, i.e.
-     ;; `fountain-outline-show-all'
-     ["Show All" outline-show-all]
+     ["Show All" fountain-outline-show-all]
      "---"
      ["Next Character" fountain-forward-character]
      ["Previous Character" fountain-backward-character]
